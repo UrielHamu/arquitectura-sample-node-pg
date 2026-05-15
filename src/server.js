@@ -1,10 +1,9 @@
 import 'dotenv/config'
 import express 	from "express";	// hacer npm i express
 import cors 	from "cors";	// hacer npm i cors
-
-// Controllers
 import AlumnosController    from "./controllers/alumnos-controller.js"
 import CursosController     from "./controllers/cursos-controller.js"
+
 
 const app  = express();
 const port = process.env.PORT || 3000;  // si no esta definido en el archivo .env uso el 3000.
@@ -24,4 +23,6 @@ app.listen(port, () => {	// Inicio el servidor WEB (escuchar)
     console.log("server.js");
     console.log(`Listening on http://localhost:${port}`)
 })
-  
+
+app.use("/api/materias",        MateriasController);
+app.use("/api/calificaciones",  CalificacionesController);
