@@ -10,6 +10,18 @@ export default class CalificacionesService {
         this.MateriasService = new MateriasService();
     }
 
+    getAllAsync = async () => {
+        console.log(`CalificacionesService.getAllAsync()`);
+        const returnArray = await this.CalificacionesRepository.getAllAsync();
+        return returnArray;
+    }
+
+    getByIdAsync = async (id) => {
+        console.log(`CalificacionesService.getByIdAsync(${id})`);
+        const returnEntity = await this.CalificacionesRepository.getByIdAsync(id);
+        return returnEntity;
+    }
+
     createAsync = async (entity) => {
         if (entity.nota < 0 || entity.nota > 10) {
             throw new Error('La nota debe estar entre 0 y 10');
@@ -48,5 +60,9 @@ export default class CalificacionesService {
         return await this.CalificacionesRepository.updateAsync(entity);
     }
     
-
+    deleteByIdAsync = async (id) => {
+        console.log(`CalificacionesService.deleteByIdAsync(${id})`);
+        const rowsAffected = await this.CalificacionesRepository.deleteByIdAsync(id);
+        return rowsAffected;
+    }
 }
