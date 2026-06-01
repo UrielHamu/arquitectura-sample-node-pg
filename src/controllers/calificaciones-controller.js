@@ -33,7 +33,7 @@ router.get('/:id', async (req, res) => {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`Error: ${error.message}`);
     }
 });
-router.get('alumno/:idAlumno', async (req, res) => {
+router.get('/:idAlumno', async (req, res) => {
     try {
         let id = req.params.id;
         const returnEntity = await currentService.getByIdAsync(id);

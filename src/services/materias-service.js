@@ -13,6 +13,6 @@ export default class MateriasService {
         }
         return await this.MateriasRepository.createAsync(entity);
     }
-
+    
 }
 
