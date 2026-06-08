@@ -2,44 +2,49 @@ import Db from './db-pg.js';
 
 export default class MateriasRepository {
     constructor() {
-        console.log('Estoy en: MateriasRepository-new.constructor()');
+        console.log('Estoy en: MateriasRepository.constructor()');
         this.db = new Db();
     }
 
     getAllAsync = async () => {
-        console.log(`MateriasRepository-new.getAllAsync()`);
+        console.log(`MateriasRepositor.getAllAsync()`);
         const sql = `SELECT * FROM materias`;
         return await this.db.queryAll(sql);
     }
 
     getByIdAsync = async (id) => {
-        console.log(`MateriasRepository-new.getByIdAsync(${id})`);
+        console.log(`MateriasRepository.getByIdAsync(${id})`);
         const sql = `SELECT * FROM materias WHERE id=$1`;
         return await this.db.queryOne(sql, [id]);
     }
 
-    createAsync = async (entity) => {
-        console.log(`MateriasRepository-new.createAsync(${JSON.stringify(entity)})`);
-        const sql = ` INSERT INTO materias (
-                            nombre
-                        ) VALUES (
-                            $1,
-                        ) RETURNING id`;
+     createAsync = async (entity) => {
+        const sql = `
+            INSERT INTO materias (
+                nombre
+            )
+            VALUES (
+                $1
+            )
+            RETURNING id
+        `;
+
         const values = [
-            entity?.nombre        ?? '',
+            entity?.nombre ?? ''
         ];
+
         return await this.db.queryReturnId(sql, values);
     }
 
     updateAsync = async (entity) => {
-        console.log(`MateriasRepository-new.updateAsync(${JSON.stringify(entity)})`);
+        console.log(`MateriasRepository.updateAsync(${JSON.stringify(entity)})`);
         let id = entity.id;
 
         const previousEntity = await this.getByIdAsync(id);
         if (previousEntity == null) return 0;
 
         const sql = `UPDATE materias SET
-                        nombre           = $2,
+                        nombre           = $2
                     WHERE id = $1`;
         const values = [
             id,
@@ -49,8 +54,10 @@ export default class MateriasRepository {
     }
 
     deleteByIdAsync = async (id) => {
-        console.log(`MateriasRepository-new.deleteByIdAsync(${id})`);
+        console.log(`MateriasRepository.deleteByIdAsync(${id})`);
         const sql = `DELETE FROM materias WHERE id=$1`;
-        return await this.db.queryRowCount(sql, [id]);
+        let r = await this.db.queryRowCount(sql, [id]);; 
+        console.log(r);
+        return r;
     }
 }

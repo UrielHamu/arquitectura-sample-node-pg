@@ -77,7 +77,7 @@ router.delete('/:id', async (req, res) => {
         let id = req.params.id;
         const rowCount = await currentService.deleteByIdAsync(id);
         if (rowCount != 0){
-            res.status(StatusCodes.OK).json(null);
+            res.status(StatusCodes.OK).json(rowCount);
         } else {
             res.status(StatusCodes.NOT_FOUND).send(`No se encontro la entidad (id:${id}).`);
         }

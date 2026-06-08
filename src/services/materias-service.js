@@ -20,7 +20,7 @@ export default class MateriasService {
 
     createAsync = async (entity) => {
 
-        if (!entity.nombre || entity.nombre.trim() === '') {
+        if (entity.nombre == null || entity.nombre.trim() === '') {
             throw new Error('El nombre es obligatorio');
         }
         return await this.MateriasRepository.createAsync(entity);
@@ -31,7 +31,7 @@ export default class MateriasService {
         if (materia == null) {
             throw new Error('La materia no existe');
         }
-        if (entity.nombre != null) {
+        if (entity.nombre == null) {
             throw new Error('El nombre no fue ingresado');            
         }
         return await this.MateriasRepository.updateAsync(entity);

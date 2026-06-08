@@ -2,24 +2,24 @@ import Db from './db-pg.js';
 
 export default class CalificacionesRepository {
     constructor() {
-        console.log('Estoy en: CalificacionesRepository-new.constructor()');
+        console.log('Estoy en: CalificacionesRepository.constructor()');
         this.db = new Db();
     }
 
     getAllAsync = async () => {
-        console.log(`CalificacionesRepository-new.getAllAsync()`);
+        console.log(`CalificacionesRepository.getAllAsync()`);
         const sql = `SELECT * FROM calificaciones`;
         return await this.db.queryAll(sql);
     }
 
     getByIdAsync = async (id) => {
-        console.log(`CalificacionesRepository-new.getByIdAsync(${id})`);
+        console.log(`CalificacionesRepository.getByIdAsync(${id})`);
         const sql = `SELECT * FROM calificaciones WHERE id=$1`;
         return await this.db.queryOne(sql, [id]);
     }
 
     createAsync = async (entity) => {
-        console.log(`CalificacionesRepository-new.createAsync(${JSON.stringify(entity)})`);
+        console.log(`CalificacionesRepository.createAsync(${JSON.stringify(entity)})`);
         const sql = ` INSERT INTO calificaciones (
                             id_alumno            ,
                             id_materia            ,
@@ -41,7 +41,7 @@ export default class CalificacionesRepository {
     }
 
     updateAsync = async (entity) => {
-        console.log(`CalificacionesRepository-new.updateAsync(${JSON.stringify(entity)})`);
+        console.log(`CalificacionesRepository.updateAsync(${JSON.stringify(entity)})`);
         let id = entity.id;
 
         const previousEntity = await this.getByIdAsync(id);
@@ -64,8 +64,22 @@ export default class CalificacionesRepository {
     }
 
     deleteByIdAsync = async (id) => {
-        console.log(`CalificacionesRepository-new.deleteByIdAsync(${id})`);
+        console.log(`CalificacionesRepository.deleteByIdAsync(${id})`);
         const sql = `DELETE FROM calificaciones WHERE id=$1`;
         return await this.db.queryRowCount(sql, [id]);
+    }
+     getByAlumnoMateriaAsync = async (idAlumno, idMateria) => {
+        console.log(
+            `CalificacionesRepository.getByAlumnoMateriaAsync(${idAlumno}, ${idMateria})`
+        );
+
+        const sql = `
+            SELECT *
+            FROM calificaciones
+            WHERE id_alumno = $1
+            AND id_materia = $2
+        `;
+
+        return await this.db.queryOne(sql, [idAlumno, idMateria]);
     }
 }

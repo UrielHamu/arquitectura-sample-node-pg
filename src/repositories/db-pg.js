@@ -63,6 +63,7 @@ export default class DbPg {
             const resultPg = values
                 ? await this.getDBPool().query(sql, values)
                 : await this.getDBPool().query(sql);
+                console.log(resultPg);
             rowsAffected = resultPg.rowCount;
         } catch (error) {
             LogHelper.logError(error);
